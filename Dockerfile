@@ -1,7 +1,6 @@
-FROM php:8.2-fpm
+ARG VERSION
 
-ARG ROLE=app
-ARG APPENV=production
+FROM php:${VERSION}-fpm
 
 WORKDIR /var/www/html
 
@@ -19,14 +18,14 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd \
     zip sodium
 
-# Install Node.js and NPM
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-    && apt-get install -y nodejs
+# # Install Node.js and NPM
+# RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+#     && apt-get install -y nodejs
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-COPY php.ini /etc/php/8.0.2/cli/conf.d/php.ini 
+COPY php.ini /etc/php/${VERSION}/cli/conf.d/php.ini 
 COPY start-container.sh /usr/local/bin/start-container.sh
 COPY release-tasks.sh /usr/local/bin/release-tasks.sh
 

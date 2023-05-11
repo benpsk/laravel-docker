@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ROLE=${ROLE:-app}
+ROLE=${ROLE:-role}
 APPENV=${APPENV:-production}
 
 echo "App running on $APPENV environment."

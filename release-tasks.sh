@@ -1,11 +1,11 @@
-ROLE=${ROLE:-app}
+ROLE=${ROLE:-role}
 APPENV=${APPENV:-production}
 
 if [ $ROLE == "app" ]; then
     if [ $APPENV == "production" ]; then
         echo "Running production tasks."
         php /usr/bin/composer install --optimize-autoloader --no-dev
-        php artisan optimize:clear
+        php artisan optimize
     else
         echo "Running tasks."
         php /usr/bin/composer install

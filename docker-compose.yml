@@ -5,24 +5,26 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        VERSION: ${PHP_VERSION:-8.2}
     expose:
       - 9000
     restart: unless-stopped
     environment:
       ROLE: app
-      APPENV: ${APP_ENV:-production}
+      APPENV: ${APP_ENV:-staging}
     volumes:
-      - ./php.ini:/etc/php/8.0.2/cli/conf.d/php.ini
+      - ./php.ini:/etc/php/${PHP_VERSION}/cli/conf.d/php.ini
       - .:/var/www/html
     networks:
-      - gravity-science-net
+      - net
     depends_on:
       - mysql
 
   webserver:
     image: nginx:1.24.0-alpine
     ports:
-      - 8000:80
+      - 8001:80
     restart: unless-stopped
     environment:
       - NGINX_HOST=localhost
@@ -31,7 +33,7 @@ services:
       - ./default.conf.template:/etc/nginx/templates/default.conf.template
       - ./:/var/www/html
     networks:
-      - gravity-science-net
+      - net
     depends_on:
       - app
       - mysql
@@ -39,7 +41,7 @@ services:
   mysql:
     image: mariadb:10.11.2-jammy
     ports:
-      - 3303:3306
+      - 3305:3306
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: "${DB_DATABASE:-secret}"
@@ -51,14 +53,14 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - gravity-science-net
+      - net
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-u${DB_USERNAME}", "-p${DB_PASSWORD}"]
       retries: 3
       timeout: 5s
 
 networks:
-  gravity-science-net:
+  net:
     driver: bridge
 
 volumes:
