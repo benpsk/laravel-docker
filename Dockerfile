@@ -18,9 +18,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd \
     zip sodium
 
-# # Install Node.js and NPM
-# RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-#     && apt-get install -y nodejs
+# Install Node.js lts version and NPM
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
+    && apt-get install -y nodejs
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

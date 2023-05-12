@@ -51,7 +51,7 @@ services:
       # SERVICE_TAGS: dev
       # SERVICE_NAME: mysql
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql:/var/lib/mysql
     networks:
       - net
     healthcheck:
@@ -64,5 +64,5 @@ networks:
     driver: bridge
 
 volumes:
-  mysql_data:
+  mysql:
     driver: local
