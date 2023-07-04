@@ -25,9 +25,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-COPY php.ini /etc/php/${VERSION}/cli/conf.d/php.ini 
-COPY start-container.sh /usr/local/bin/start-container.sh
-COPY release-tasks.sh /usr/local/bin/release-tasks.sh
+COPY ./docker/php.ini /etc/php/${VERSION}/cli/conf.d/php.ini 
+COPY ./docker/start-container.sh /usr/local/bin/start-container.sh
+COPY ./docker/release-tasks.sh /usr/local/bin/release-tasks.sh
 
 RUN chmod +x /usr/local/bin/start-container.sh \
     && chmod +x /usr/local/bin/release-tasks.sh

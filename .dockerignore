@@ -1,4 +1,4 @@
-node_modules
-vendor
-Dockerfile
-docker-compose.yml
+./node_modules
+./vendor
+./docker
+./docker-compose.yml
