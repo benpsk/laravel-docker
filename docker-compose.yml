@@ -3,8 +3,8 @@ version: '3.9'
 services:
   app:
     build:
-      context: .
-      dockerfile: ./docker/Dockerfile
+      context: ./docker
+      dockerfile: Dockerfile
       args:
         VERSION: ${PHP_VERSION:-8.2}
     expose:
