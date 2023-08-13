@@ -20,6 +20,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd \
     zip sodium
 
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
 # Install Node.js lts version and NPM
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
     && apt-get install -y nodejs
