@@ -1,26 +1,34 @@
 #!/usr/bin/env bash
 
-ROLE=${ROLE:-role}
 APPENV=${APPENV:-production}
 
 echo "App running on $APPENV environment."
 
-if [ $ROLE == "app" ]; then
-	echo "App started"
-	/usr/local/bin/release-tasks.sh
-	/usr/local/sbin/php-fpm -F
-elif [ $ROLE == "queue" ]; then
-	echo "Queue started."
-	php artisan queue:work
-elif [ $ROLE == "scheduler" ]; then
-	echo "Scheduler started."
-	php artisan schedule:work
-	# while [ true ]
-	# do
-	#     php artisan inspire && sleep 30
-	#     # php artisan schedule:run --verbose --no-interaction && sleep 60
-	# done
+if [ $APPENV == "production" ]; then
+    echo "Running production tasks."
+    php /usr/bin/composer install --optimize-autoloader --no-dev
+    php artisan optimize:clear
+    php artisan optimize
+
+    echo "Running assets."
+    npm install --omit=dev
+    npm run build
+
 else
-	echo "Unknown Role."
-	exit 1
+    echo "Running tasks."
+    php /usr/bin/composer install
+    php artisan optimize:clear
+
+    echo "Running assets."
+    npm install
+    npm run dev --host=0.0.0.0 &
 fi
+
+chown -R www-data:www-data storage
+chown -R www-data:www-data bootstrap/cache
+
+# run php-fpm
+/usr/local/sbin/php-fpm -F
+
+# start Supervisor
+supervisord -c /etc/supervisor/supervisord.conf
