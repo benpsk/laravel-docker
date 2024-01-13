@@ -23,8 +23,8 @@ RUN apt-get update && apt-get install -y \
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
-# Install Node.js lts version and NPM and supervisor
-RUN apt-get update && apt-get install -y ca-certificates curl gnupg supervisor \ 
+# Install Node.js lts version and NPM, supervisor and cron
+RUN apt-get update && apt-get install -y ca-certificates curl gnupg supervisor cron \ 
     && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
     && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
     && apt-get update && apt-get install nodejs -y
@@ -35,6 +35,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY php.ini /etc/php/${VERSION}/cli/conf.d/php.ini 
 COPY start-container.sh /usr/local/bin/start-container.sh
 COPY laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
+COPY my_cron_tab /etc/cron.d/my_cron_tab
 
 RUN chmod +x /usr/local/bin/start-container.sh
 

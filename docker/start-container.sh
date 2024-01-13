@@ -32,3 +32,6 @@ chown -R www-data:www-data bootstrap/cache
 
 # start Supervisor
 supervisord -c /etc/supervisor/supervisord.conf
+
+# Start cron in the foreground
+cron &
