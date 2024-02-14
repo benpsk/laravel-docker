@@ -14,6 +14,15 @@ if [ $APPENV == "production" ]; then
     npm install --omit=dev
     npm run build
 
+elif [ "$APPENV" == "staging" ]; then
+    echo "Running staging tasks."
+    php /usr/bin/composer install 
+    php artisan optimize:clear
+
+    echo "Running assets."
+    npm install
+    npm run build
+
 else
     echo "Running tasks."
     php /usr/bin/composer install
