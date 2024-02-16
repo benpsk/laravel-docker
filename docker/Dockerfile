@@ -32,7 +32,7 @@ RUN apt-get update && apt-get install -y ca-certificates curl gnupg supervisor c
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-COPY php.ini /etc/php/${VERSION}/cli/conf.d/php.ini 
+COPY php.ini /usr/local/etc/php/php.ini
 COPY start-container.sh /usr/local/bin/start-container.sh
 COPY laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
 COPY my_cron_tab /etc/cron.d/my_cron_tab
