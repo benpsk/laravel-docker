@@ -14,7 +14,7 @@ services:
       ROLE: app
       APPENV: ${APP_ENV:-production}
     volumes:
-      - ./docker/php.ini:/etc/php/${PHP_VERSION}/cli/conf.d/php.ini
+      - ./docker/php.ini:/usr/local/etc/php/php.ini
       - .:/var/www/html
     networks:
       - net
