@@ -27,3 +27,5 @@ Follow these steps:
     docker compose up 
     ```
 That's it! Your Laravel project is now ready to run with Docker.
+
+
